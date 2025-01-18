@@ -30,9 +30,14 @@ function useSubscription() {
         if (!snapshot) return;
 
         const data = snapshot.data();
+
+        console.log('DEBUG 1', data);
         if (!data) return;
 
-        setHasActiveMembership(data.activeMembership);
+        console.log('DEBUG 2', data.hasActiveMembership);
+        
+
+        setHasActiveMembership(data.hasActiveMembership);
     }, [snapshot]);
 
     useEffect(() => {

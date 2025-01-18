@@ -12,6 +12,7 @@ import { collection, orderBy, query } from "firebase/firestore";
 import { db } from '../../firebase'
 import { askQuestion } from '../../actions/askQuestion'
 import ChatMessage from './ChatMessage'
+import { useToast } from '@/hooks/use-toast'
 
 export type Message = {
     id?: string;
@@ -22,6 +23,7 @@ export type Message = {
 
 function Chat({ id }: { id: string }) {
     const user = useUser();
+    const { toast } = useToast();
 
     const [input, setInput] = useState('');
     const [isPending, startTransition] = useTransition();
@@ -30,10 +32,10 @@ function Chat({ id }: { id: string }) {
 
     const [snapshot, loading, /*error*/] = useCollection(
         user.user?.id ?
-        query(
-            collection(db, 'users', user.user.id, 'files', id, 'chat'),
-            orderBy('createdAt')
-        ) : undefined);
+            query(
+                collection(db, 'users', user.user.id, 'files', id, 'chat'),
+                orderBy('createdAt')
+            ) : undefined);
 
     useEffect(() => {
         bottomOfChatRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -88,14 +90,20 @@ function Chat({ id }: { id: string }) {
         ]);
 
         startTransition(async () => {
-            const { success, message } = await askQuestion(id, q);
+            const result = await askQuestion(id, q);
 
-            if (!success) {
+            if (!result?.success) {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error',
+                    description: result?.message || 'An error occurred',
+                });
+                
                 setMessages((prev) =>
                     prev.slice(0, prev.length - 1).concat([
                         {
                             role: 'ai',
-                            message: `Whoops... ${message}`,
+                            message: `Whoops... ${result?.message || 'An error occurred'}`,
                             createdAt: new Date(),
                         }
                     ])
@@ -114,7 +122,7 @@ function Chat({ id }: { id: string }) {
                 ) : (
                     <div className='pd-5'>
                         {messages.length === 0 && (
-                            <ChatMessage 
+                            <ChatMessage
                                 key={"placeholder"}
                                 message={{
                                     role: "ai",

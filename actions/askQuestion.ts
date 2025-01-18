@@ -5,8 +5,8 @@ import { adminDb } from "../firebaseAdmin";
 import { Message } from "@/components/Chat";
 import { generateLangchainCompletion } from "@/lib/langchain";
 
-//const FREE_LIMIT = 3;
-//const PRO_LIMIT = 100;
+const PRO_LIMIT = 20;
+const FREE_LIMIT = 2;
 
 export async function askQuestion(id: string, question: string) {
     await auth.protect();
@@ -19,29 +19,49 @@ export async function askQuestion(id: string, question: string) {
         .doc(id)
         .collection("chat");
 
-    //const chatSnapshot = await chatRef.get();
-    //const userMessages = chatSnapshot.docs.filter((doc) => doc.data().role === "human");
+    const chatSnapshot = await chatRef.get();
+    const userMessages = chatSnapshot.docs.filter((doc) => doc.data().role === "human");
 
-    const userMessage: Message = {
-        role: "human",
-        message: question,
-        createdAt: new Date(),
-    };
+    const userRef = await adminDb.collection("users").doc(userId!).get();
 
-    await chatRef.add(userMessage);
+    if (!userRef.data()?.hasActiveMembership) {
+        if (userMessages.length >= FREE_LIMIT) {
+            return {
+                success: false,
+                message: `You'll need to upgrade to PRO to ask more than ${FREE_LIMIT} questions! 😢`,
+            };
+        }
+    }
 
-    const reply = await generateLangchainCompletion(id, question);
+    if (userRef.data()?.hasActiveMembership) {
+        if (userMessages.length >= PRO_LIMIT) {
+            return {
+                success: false,
+                message: `You've reached the pro limit of ${PRO_LIMIT} questions per document! 😢`,
+            }
+        }
 
-    const aiMessage: Message = {
-        role: "ai",
-        message: reply,
-        createdAt: new Date(),
-    };
+        const userMessage: Message = {
+            role: "human",
+            message: question,
+            createdAt: new Date(),
+        };
 
-    await chatRef.add(aiMessage);
+        await chatRef.add(userMessage);
 
-    return {
-        success: true,
-        message: null,
-    };
+        const reply = await generateLangchainCompletion(id, question);
+
+        const aiMessage: Message = {
+            role: "ai",
+            message: reply,
+            createdAt: new Date(),
+        };
+
+        await chatRef.add(aiMessage);
+
+        return {
+            success: true,
+            message: null,
+        };
+    }
 }

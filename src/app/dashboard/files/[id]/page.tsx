@@ -1,16 +1,15 @@
-import React from 'react'
-import { auth } from '@clerk/nextjs/server'
+import React from 'react';
+import { auth } from '@clerk/nextjs/server';
 import { adminDb } from '../../../../../firebaseAdmin';
 import PdfView from '@/components/PdfView';
 import Chat from '@/components/Chat';
 
-async function ChatToFilePage({
-  params: {id},
-}: {
-  params: {
-    id: string;
-  };
-}) {
+type Params = Promise<{ id: string }>
+
+async function ChatToFilePage(props: { params: Params }) {
+  const params = await props.params;
+  const { id } = params;
+
   await auth.protect();
   const { userId } = await auth();
 
@@ -30,10 +29,10 @@ async function ChatToFilePage({
       </div>
 
       <div className='col-span-5 lg:col-span-3 bg-gray-100 border-r-2 lg:border-indigo-600 lg:-order-1 overflow-auto'>
-        <PdfView  url={url} />
+        <PdfView url={url} />
       </div>
     </div>
-  )
+  );
 }
 
-export default ChatToFilePage
+export default ChatToFilePage;
