@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Chat with PDF
 
-## Getting Started
+**Your Interactive Document Companion**  
+Transform static PDFs into dynamic conversations, enhancing your productivity effortlessly!
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### 🌐 Store your PDF Documents
+Upload your PDF documents and store them securely in the cloud for easy access anytime, anywhere.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### ⚡ Chat Memorisation
+Engage with an AI assistant that remembers your conversations for a seamless experience.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 🧠 Interactive PDF Viewer
+Explore and interact with your PDF documents like never before.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### ☁️ Cloud Backup
+Automatically back up your documents in the cloud for peace of mind.
 
-## Learn More
+### 📱 Responsive Across Devices
+Access and interact with your documents from any device with a responsive design.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 💡 Overview
+**Chat with PDF** is an innovative application designed to transform your PDFs into interactive conversations.  
+Upload a document and let the AI assistant answer your questions, summarize content, or provide insights. Whether you're a student, researcher, or professional, this tool empowers you to make the most out of your documents.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Key Benefits**:
+- Simplifies complex documents with AI-driven summaries and explanations.
+- Elevates productivity with real-time, intelligent conversations.
+- Perfect for all use cases – academic, corporate, or personal.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🎯 How to Get Started
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Visit the deployed application: [Chat with PDF](https://chat-with-pdf-silk.vercel.app/)
+2. Upload your PDF documents.
+3. Start chatting with your documents and unlock their potential!
+
+---
+
+## 🖼️ Sneak Peek
+
+![App Screenshot](https://i.imgur.com/VciRSTI.jpeg)  
+*Interactive and user-friendly interface to manage and interact with your documents.*
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend**: React, Next.js, Tailwind CSS  
+- **Icons**: Lucide React  
+- **Cloud**: Deployed on Vercel  
+
+---
+
+## 📫 Feedback & Contributions
+
+Have ideas to improve the app? Feel free to fork the repository or submit an issue.  
+Let’s make **Chat with PDF** even better together!
+
+---
+
+**Made with 💙 for productivity enthusiasts.**
