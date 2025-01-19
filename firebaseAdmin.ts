@@ -2,13 +2,26 @@ import {initializeApp, getApps, App, getApp, cert, ServiceAccount} from "firebas
 import {getFirestore} from "firebase-admin/firestore";
 import {getStorage} from "firebase-admin/storage";
 
-import serviceKey from "./service_key.json";
+import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
 
 let app: App;
+let serviceKey;
+
+const client = new SecretManagerServiceClient();
+
+async function accessSecret() {
+  const [version] = await client.accessSecretVersion({
+    name: 'projects/514252692424/secrets/service_key/versions/latest',
+  });
+
+  serviceKey = JSON.parse(version.payload!.data!.toString());
+}
+
+accessSecret();
 
 if (getApps().length === 0) {
   app = initializeApp({
-    credential: cert(serviceKey as ServiceAccount),
+    credential: cert(serviceKey! as ServiceAccount),
   });
 } else {
     app = getApp();
