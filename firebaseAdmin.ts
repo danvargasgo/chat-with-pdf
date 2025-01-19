@@ -17,9 +17,8 @@ async function accessSecret() {
   serviceKey = JSON.parse(version.payload!.data!.toString());
 }
 
-accessSecret();
-
 if (getApps().length === 0) {
+  await accessSecret();
   app = initializeApp({
     credential: cert(serviceKey! as ServiceAccount),
   });
